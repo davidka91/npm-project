@@ -29,4 +29,4 @@ registries:
     type: npm-registry
     url: https://kimt.jfrog.io/artifactory/api/npm/davidka-npm-remote/
     username: davidk
-    password: ${{ secrets.JF_PASSWORD }} # Must be an unencoded password
+    password: ${{ secrets.JF_PASSWORD }} # Must be an unencoded password added as dependabot secret
