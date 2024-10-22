@@ -22,7 +22,7 @@ updates:
         - "minor"
     registries:
       - npm-jfrog
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 5
 
 registries:
   npm-jfrog:  
