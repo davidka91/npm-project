@@ -1,0 +1,33 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/' # Location of package manifests
+    insecure-external-code-execution: allow
+    target-branch: 'master'
+    schedule:
+      interval: 'weekly'
+      day: "sunday"
+      time: "09:00"
+      timezone: "Asia/Jerusalem"
+    groups:
+      patch-versions:
+        update-types:
+        - "patch"
+      minor-versions:
+        update-types:
+        - "minor"
+    registries:
+      - npm-jfrog
+    open-pull-requests-limit: 1
+
+registries:
+  npm-jfrog:  
+    type: npm-registry
+    url: https://kimt.jfrog.io/artifactory/api/npm/davidka-npm-remote/
+    username: davidk
+    password: ${{ secrets.JF_PASSWORD }} # Must be an unencoded password
