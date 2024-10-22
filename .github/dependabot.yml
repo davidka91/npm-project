@@ -7,7 +7,6 @@ version: 2
 updates:
   - package-ecosystem: 'npm'
     directory: '/' # Location of package manifests
-    insecure-external-code-execution: allow
     target-branch: 'master'
     schedule:
       interval: 'weekly'
