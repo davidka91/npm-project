@@ -28,5 +28,5 @@ registries:
   npm-jfrog:  
     type: npm-registry
     url: https://kimt.jfrog.io/artifactory/api/npm/davidka-npm-remote/
-    username: davidk
+    username: dependabot
     password: ${{ secrets.JF_PASSWORD }} # Must be an unencoded password added as dependabot secret
