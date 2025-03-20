@@ -7,26 +7,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup JFrog CLI
+      - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
-        env:
-          # JFrog platform url (for example: https://acme.jfrog.io)
-          JF_URL: ${{ vars.JF_URL }}
-
-          # JFrog Platform access token
-          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-
-          # Basic authentication credentials
-          #JF_USER: ${{ secrets.JF_USER }}
-          #JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
-
+        with:
+          jfrog_platform_url: ${{ vars.JF_URL }}
+          jfrog_access_token: ${{ secrets.JF_ACCESS_TOKEN }}
       - name: Configure JFrog CLI
-      run: |
-        jfrog c add idani \
-          --artifactory-url=https://idani.jfrog.io/ \
-          --access-token="${{ secrets.JF_ACCESS_TOKEN }}" \
-          --xray-url=https://idani.jfrog.io/xray \
-          --interactive=false
+        run: |
+          jfrog c add idani \
+            --artifactory-url=https://idani.jfrog.io/ \
+            --access-token="${{ secrets.JF_ACCESS_TOKEN }}" \
+            --xray-url=https://idani.jfrog.io/xray \
+            --interactive=false
       - name: Run JFrog CLI
         run: |
           # Ping the server
