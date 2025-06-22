@@ -9,16 +9,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
-        with:
-          jfrog_platform_url: ${{ vars.JF_URL }}
-          jfrog_access_token: ${{ secrets.JF_ACCESS_TOKEN }}
-      - name: Configure JFrog CLI
-        run: |
-          jfrog c add idani \
-            --artifactory-url=https://idani.jfrog.io/ \
-            --access-token="${{ secrets.JF_ACCESS_TOKEN }}" \
-            --xray-url=https://idani.jfrog.io/xray \
-            --interactive=false
+          env:
+            JF_URL: https://idani.jfrog.io 
+		        JF_PROJECT: dk-a
+          with:
+            oidc-provider-name: davidka2 
       - name: Run JFrog CLI
         run: |
           # Ping the server
