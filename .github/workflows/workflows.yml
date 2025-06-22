@@ -13,7 +13,7 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
           env:
             JF_URL: https://idani.jfrog.io 
-		        JF_PROJECT: dk-a
+	    JF_PROJECT: dk-a
           with:
             oidc-provider-name: davidka2 
       - name: Run JFrog CLI
