@@ -1,6 +1,8 @@
 name: "Setup JFrog CLI Example"
 on: push
-
+permissions:
+  contents: write
+  id-token: write
 jobs:
   build:
     runs-on: ubuntu-latest
