@@ -17,6 +17,7 @@ jobs:
           JF_PROJECT: "xray-test"   # This must be under `env` as well
         with:
           oidc-provider-name: davidka
+          version: 2.77.0
       
       - name: Run JFrog CLI
         run: |
