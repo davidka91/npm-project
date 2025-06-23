@@ -13,10 +13,10 @@ jobs:
       - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4   # This must be indented correctly under the step
         env:
-          JF_URL: "https://idani.jfrog.io"
-          JF_PROJECT: "dk-a"   # This must be under `env` as well
+          JF_URL: "https://gpgtest.jfrog.io"
+          JF_PROJECT: "xray-test"   # This must be under `env` as well
         with:
-          oidc-provider-name: davidka2
+          oidc-provider-name: davidka
       
       - name: Run JFrog CLI
         run: |
