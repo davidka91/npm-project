@@ -14,6 +14,7 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4   # This must be indented correctly under the step
         env:
           JF_URL: "https://gpgtest.jfrog.io"
+          JF_PROJECT: "xray-test"
           #JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
         with:
           oidc-provider-name: davidka
