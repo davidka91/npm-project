@@ -15,9 +15,9 @@ jobs:
         env:
           JF_URL: "https://gpgtest.jfrog.io"
           JF_PROJECT: "xray-test"
-          #JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
         with:
-          oidc-provider-name: davidka
+          #oidc-provider-name: davidka
           version: 2.77.0
       
       - name: Run JFrog CLI
@@ -25,4 +25,4 @@ jobs:
           # Ping the server
           jf rt ping
           # Collect environment variables for the build
-          jf audit
+          jf audit --project=xray-test
