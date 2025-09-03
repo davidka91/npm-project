@@ -14,9 +14,8 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4   # This must be indented correctly under the step
         env:
           JF_URL: "https://idani.jfrog.io"
-          JF_PROJECT: "dk-a"
         with:
-          oidc-provider-name: davidka
+          oidc-provider-name: davidka3
           version: 2.78.8
       
       - name: Run JFrog CLI
@@ -24,4 +23,4 @@ jobs:
           # Ping the server
           jf rt ping
           # Collect environment variables for the build
-          jf audit --project=dk-a
+          jf audit
