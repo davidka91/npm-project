@@ -17,7 +17,7 @@ jobs:
           JF_PROJECT: "xray-test"
         with:
           oidc-provider-name: davidka
-          version: 2.78.3
+          version: 2.78.8
       
       - name: Run JFrog CLI
         run: |
