@@ -1,4 +1,4 @@
-name: "Setup JFrog CLI Example 1"
+name: "Setup JFrog CLI Example"
 on: push
 permissions:
   contents: write
@@ -15,7 +15,7 @@ jobs:
         env:
           JF_URL: "https://idani.jfrog.io"
         with:
-          oidc-provider-name: davidka3
+          oidc-provider-name: davidka
           version: 2.78.8
       
       - name: Run JFrog CLI
