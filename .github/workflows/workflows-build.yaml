@@ -30,10 +30,17 @@ jobs:
           npm config set registry https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
           npm config set //idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/:_authToken=${{ secrets.NPM_TOKEN }}
 
+      - name: Debug NPM Token
+        run: echo "NPM_TOKEN is set."
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Check Artifactory Connectivity
         run: |
           echo "Checking connectivity to Artifactory"
-          curl -i -H "Authorization: Bearer ${NPM_TOKEN}" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+          curl --verbose -i -H "Authorization: Bearer ${NPM_TOKEN}" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
         run: npm ci
