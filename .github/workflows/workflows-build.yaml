@@ -24,7 +24,8 @@ jobs:
 
       - name: Test npm registry access with curl
         run: |
-          curl -i -H "Authorization: Bearer $NPM_TOKEN" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+          echo $NPM_TOKEN
+          // curl -i -H "Authorization: Bearer $NPM_TOKEN" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
 
       - name: Install dependencies
         run: npm ci
