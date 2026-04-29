@@ -21,12 +21,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
 
-      - name: Export NPM Token
-        run: echo "NPM_TOKEN=${{ secrets.NPM_TOKEN }}" >> $GITHUB_ENV
 
       - name: Test npm registry access with curl
         run: |
-          curl -i -H "Authorization: Bearer ${{ secrets.NPM_TOKEN }}" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+          curl -i -H "Authorization: Bearer $NPM_TOKEN" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
 
       - name: Install dependencies
         run: npm ci
