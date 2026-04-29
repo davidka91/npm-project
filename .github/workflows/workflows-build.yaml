@@ -21,11 +21,18 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
 
-
-      - name: Test npm registry access with curl
+      - name: Set up npm configuration
         run: |
-          if [ -z "${{ secrets.NPM_TOKEN }}" ];
-          # curl -i -H "Authorization: Bearer $NPM_TOKEN" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+          npm config set registry https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+          npm config set //idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/:_authToken=${{ secrets.NPM_TOKEN }}
+
+      - name: Check NPM Token Accessibility
+        run: |
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "NPM_TOKEN is not set."
+          else
+            echo "NPM_TOKEN is accessible."
+          fi
 
       - name: Install dependencies
         run: npm ci
