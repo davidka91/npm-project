@@ -23,8 +23,8 @@ jobs:
 
       - name: Set up npm configuration
         run: |
-          npm config set registry https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
           npm config set //idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/:_authToken=${{ secrets.NPM_TOKEN }}
+          npm config get registry
 
       - name: Check NPM Token Accessibility
         run: |
