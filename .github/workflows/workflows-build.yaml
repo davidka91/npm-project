@@ -12,9 +12,12 @@ jobs:
       matrix:
         node-version: [18]
     steps:
+      
       - name: Checkout repo
         uses: actions/checkout@v4
-
+      - name: Test npm registry access
+        run: curl -i -H "Authorization: Bearer ${{ secrets.NPM_TOKEN }}" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+    
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
