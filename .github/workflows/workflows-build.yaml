@@ -1,20 +1,16 @@
 name: Node.js CI
-
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18]
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -25,11 +21,23 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
 
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Set up npm configuration
+        run: |
+          npm config set registry https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+          npm config set //idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/:_authToken=${{ secrets.NPM_TOKEN }}
+
+      - name: Check NPM Token Accessibility
+        run: |
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "NPM_TOKEN is not set."
+          else
+            echo "NPM_TOKEN is accessible."
+          fi
 
       - name: Install dependencies
         run: npm ci
-
+        env:
+          npm_config_loglevel: verbose
+        
       - name: Run tests
         run: npm test
