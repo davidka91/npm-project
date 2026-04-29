@@ -1,18 +1,21 @@
 name: Node.js CI
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18]
+        node-version: [18]  # Specify the Node.js version you need
+        
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -21,18 +24,16 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
 
-      - name: Set up npm configuration
+      - name: Set npm Registry and Auth Token
         run: |
-          # npm config set //idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/:_authToken=${{ secrets.NPM_TOKEN }}
-          npm config get registry
+          echo "Setting npm registry and auth token"
+          npm config set registry https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+          npm config set //idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/:_authToken=${{ secrets.NPM_TOKEN }}
 
-      - name: Check NPM Token Accessibility
+      - name: Check Artifactory Connectivity
         run: |
-          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
-            echo "NPM_TOKEN is not set."
-          else
-            echo "NPM_TOKEN is accessible."
-          fi
+          echo "Checking connectivity to Artifactory"
+          curl -i -H "Authorization: Bearer ${NPM_TOKEN}" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
 
       - name: Install dependencies
         run: npm ci
