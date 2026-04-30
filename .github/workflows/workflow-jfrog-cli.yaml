@@ -32,7 +32,9 @@ jobs:
 
       - name: Configure npm with JFrog CLI
         run: |
+          jf c show
           jf npmc --repo-resolve davidka-gith-npm-remote --server-id-resolve=setup-jfrog-cli-server
+          jf rt ping
 
       - name: Debug NPM Token
         run: echo "NPM_TOKEN is set."
