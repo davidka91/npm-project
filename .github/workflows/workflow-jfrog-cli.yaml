@@ -1,0 +1,67 @@
+name: Node.js CI JFrog CLI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]  # Specify the Node.js version you need
+        
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+          JF_URL: ${{ vars.JF_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
+      - name: Configure npm with JFrog CLI
+        run: |
+          jf npmc --repo-resolve davidka-gith-npm-remote
+
+      - name: Debug NPM Token
+        run: echo "NPM_TOKEN is set."
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Check Artifactory Connectivity
+        run: |
+          echo "Checking connectivity to Artifactory"
+          curl --verbose -i -H "Authorization: Bearer ${NPM_TOKEN}" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Configure JFrog build
+        run: |
+          jf rt build-collect-env "${{ github.workflow }}" "${{ github.run_number }}"
+          jf rt build-add-git "${{ github.workflow }}" "${{ github.run_number }}"
+
+      - name: Install dependencies
+        run: |
+          jf npm ci \
+            --build-name="${{ github.workflow }}" \
+            --build-number="${{ github.run_number }}"
+        env:
+          npm_config_loglevel: verbose
+        
+      - name: Run tests
+        run: npm test
+
+      - name: Publish build info to Artifactory
+        run: |
+          jf rt build-publish "${{ github.workflow }}" "${{ github.run_number }}"
