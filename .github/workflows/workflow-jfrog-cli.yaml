@@ -10,10 +10,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Set global environment variables for the job
+    env:
+      CI: true
+      LOG_LEVEL: debug  # Example for increased log verbosity
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}  # Set NPM_TOKEN globally for access in all steps
+
     strategy:
       matrix:
         node-version: [18]  # Specify the Node.js version you need
-        
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,15 +45,11 @@ jobs:
 
       - name: Debug NPM Token
         run: echo "NPM_TOKEN is set."
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Check Artifactory Connectivity
         run: |
           echo "Checking connectivity to Artifactory"
           curl --verbose -i -H "Authorization: Bearer ${NPM_TOKEN}" https://idani.jfrog.io/artifactory/api/npm/davidka-gith-npm-remote/
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Configure JFrog build
         run: |
@@ -59,8 +62,8 @@ jobs:
             --build-name="${{ github.workflow }}" \
             --build-number="${{ github.run_number }}"
         env:
-          npm_config_loglevel: verbose
-        
+          npm_config_loglevel: verbose  # Keep this if you need npm-specific log level as well
+
       - name: Run tests
         run: npm test
 
